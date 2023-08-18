@@ -16,7 +16,9 @@ class JysInfoApplicationTests {
 
 	@Test
 	public void Test() throws Exception {
-		Member member =
-		firebaseService.getUserDetails();
+		Member member = Member.builder()
+				.id("0")
+				.name("user1").build();
+		firebaseService.getUserDetails(member);
 	}
 }
