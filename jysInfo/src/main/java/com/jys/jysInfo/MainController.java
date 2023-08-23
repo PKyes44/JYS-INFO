@@ -2,6 +2,7 @@ package com.jys.jysInfo;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +36,8 @@ public class MainController {
 
     @ResponseBody
     @PostMapping(value = {"/universityInfo"})
-    public Map<String, List<Map<String,String>>> universityExcelSearch(HttpServletRequest req, HttpServletResponse res,
-                                                           @RequestParam(defaultValue = "0") int page) {
+    public ResponseEntity universityExcelSearch(HttpServletRequest req, HttpServletResponse res,
+                                                @RequestParam(defaultValue = "0") int page) {
         ReadOption ro = new ReadOption();
         ro.setFilePath("C:\\Users\\Yang\\OneDrive\\바탕 화면\\포폴제출용\\JYS-Information\\jysInfo\\src\\main\\resources\\static\\입학전형유형별선발결과현황.xlsx");
         ro.setOutputColumns("A","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U");
@@ -55,10 +56,17 @@ public class MainController {
 
         System.out.println("pageData = " + pageData);
 
-        Map<String, List<Map<String,String>>> response = new HashMap<>();
-        response.put("columnData", columns);
-        response.put("pageData", pageData);
+        List<Map<String, String>> paginationData = new ArrayList<>();
+        Map<String,String> tempPaginationData = new HashMap<>();
+        tempPaginationData.put("firstPage", "1");
+        tempPaginationData.put("lastPage", String.valueOf(result.size()));
+        paginationData.add(tempPaginationData);
 
-        return response;
+        Map<String, List<Map<String,String>>> response = new HashMap<>();
+        response.put("pageData", pageData);
+        response.put("paginationData", );
+        response.put()
+
+        return ResponseEntity.status(200).body();
     }
 }
