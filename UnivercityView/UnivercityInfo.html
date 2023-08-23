@@ -24,6 +24,27 @@
             <script>
             $(document).ready(function(){
                 $('[data-toggle="tooltip"]').tooltip();
+                let data = {
+                    page: 1
+                }
+                // jQuery를 이용한 AJAX 요청
+                $.ajax({
+                    url: '/universityInfo',  // 요청할 URL
+                    type: 'post',      // 요청 타입 (GET, POST 등)
+                    dataType: 'json', // 응답 데이터 타입 (JSON, XML 등)
+                    data: data,
+                    success: function(response) {
+                        // 서버 응답 성공 시 실행되는 콜백 함수
+                        // response 변수에 서버에서 받은 데이터가 담겨 있음
+                        // 원하는 작업 수행
+                        console.log(response)
+                    },
+                    error: function(xhr, status, error) {
+                        // 서버 요청 실패 시 실행되는 콜백 함수
+                        // 오류 처리 등을 수행
+                    }
+                });
+
             });
             </script>
     </head>
@@ -46,6 +67,10 @@
               </div>
             </div>
       </nav>
+
+      <script>
+        
+      </script>
         
       <div class="container-xl">
         <div class="table-responsive">
@@ -152,16 +177,60 @@
                             <td>Turin</td>
                             <td>10100</td>
                             <td>Italy</td>
-                        </tr>     
+                        </tr>       
+                        <tr>
+                            <td>11</td>
+                            <td>Martin Blank</td>
+                            <td>Via Monte Bianco 34</td>
+                            <td>Turin</td>
+                            <td>10100</td>
+                            <td>Italy</td>
+                        </tr>
+                               
+                        <tr>
+                            <td>12</td>
+                            <td>Martin Blank</td>
+                            <td>Via Monte Bianco 34</td>
+                            <td>Turin</td>
+                            <td>10100</td>
+                            <td>Italy</td>
+                        </tr>
+                               
+                        <tr>
+                            <td>13</td>
+                            <td>Martin Blank</td>
+                            <td>Via Monte Bianco 34</td>
+                            <td>Turin</td>
+                            <td>10100</td>
+                            <td>Italy</td>
+                        </tr>
+                               
+                        <tr>
+                            <td>14</td>
+                            <td>Martin Blank</td>
+                            <td>Via Monte Bianco 34</td>
+                            <td>Turin</td>
+                            <td>10100</td>
+                            <td>Italy</td>
+                        </tr>
+       
+                        <tr>
+                            <td>15</td>
+                            <td>Martin Blank</td>
+                            <td>Via Monte Bianco 34</td>
+                            <td>Turin</td>
+                            <td>10100</td>
+                            <td>Italy</td>
+                        </tr>
                     </tbody>
                 </table>
                 <div class="clearfix">
-                    <div class="hint-text">Showing <b>10</b> out of <b>25</b> entries</div>
+                    <div class="hint-text">Showing <b>15</b> out of <b>25</b> entries</div>
                     <ul class="pagination">
                         <li class="page-item disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                        <li class="page-item"><a href="#" class="page-link">1</a></li>
+                        <li class="page-item active"><a href="#" class="page-link">1</a></li>
                         <li class="page-item"><a href="#" class="page-link">2</a></li>
-                        <li class="page-item active">
+                        <li class="page-item">
                             <a href="#" class="page-link">3</a>
                         </li>
                         <li class="page-item"><a href="#" class="page-link">4</a></li>
@@ -180,6 +249,6 @@
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
-        <!-- <script src="js/scripts.js"></script> -->
+        <script src="js/scripts.js"></script>
     </body>
 </html>

@@ -34,19 +34,23 @@ public class MainController {
     @ResponseBody
     @PostMapping(value = {"/universityInfo"})
     public List<Map<String, String>> universityExcelSearch(HttpServletRequest req, HttpServletResponse res,
-                                                           @RequestParam(defaultValue = "0") int page,
-                                                           @RequestParam(defaultValue = "20") int size) {
+                                                           @RequestParam(defaultValue = "0") int page) {
         ReadOption ro = new ReadOption();
-        ro.setFilePath("C:\\Users\\rugat\\OneDrive\\바탕 화면\\JYS-Information\\jysInfo\\src\\main\\resources\\static\\입학전형유형별선발결과현황.xlsx");
+        ro.setFilePath("C:\\Users\\Yang\\OneDrive\\바탕 화면\\포폴제출용\\JYS-Information\\jysInfo\\src\\main\\resources\\static\\입학전형유형별선발결과현황.xlsx");
         ro.setOutputColumns("A","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U");
         ro.setStartRow(1);
 
         List<Map<String, String>> result = ExcelRead.read(ro);
 
+        System.out.println("result = " + result);
+        
         // 페이징 처리를 위해 데이터를 sublist로 추출
+        int size = 15;
         int startIdx = page * size;
         int endIdx = Math.min(startIdx + size, result.size());
         List<Map<String, String>> pageData = result.subList(startIdx, endIdx);
+
+        System.out.println("pageData = " + pageData);
 
         return pageData;
     }
