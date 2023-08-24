@@ -97,7 +97,4 @@ public class UniversityRepository {
 
         return uniInfoList.toString();
     }
-
-
-//    public List<UniversityInformation> findBy
 }

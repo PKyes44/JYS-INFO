@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @Table(name = "universityInformation")
 @Entity
 public class UniversityInformation {

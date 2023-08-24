@@ -1,5 +1,6 @@
 package com.jys.jysInfo;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,4 +9,10 @@ import lombok.Setter;
 public class Pageable {
     private int offset;
     private int pageSize;
+
+    @Builder
+    public Pageable(int offset, int pageSize) {
+        this.offset = offset;
+        this.pageSize = pageSize;
+    }
 }

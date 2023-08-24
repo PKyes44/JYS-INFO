@@ -4,6 +4,8 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+  jpa:
+    defer-datasource-initialization: true
 jpa:
   hibernate:
     ddl-auto: create

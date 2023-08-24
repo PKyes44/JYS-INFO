@@ -27,6 +27,10 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	//JUnit4 추가
+	testImplementation("org.junit.vintage:junit-vintage-engine") {
+		exclude group: "org.hamcrest", module: "hamcrest-core"
+	}
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 	runtimeOnly 'com.h2database:h2'
@@ -39,5 +43,8 @@ dependencies {
 }
 
 tasks.named('test') {
+	useJUnitPlatform()
+}
+test {
 	useJUnitPlatform()
 }
