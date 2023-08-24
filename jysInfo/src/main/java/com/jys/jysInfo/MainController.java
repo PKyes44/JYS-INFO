@@ -49,7 +49,7 @@ public class MainController {
         columns.add(result.get(0));
         result.remove(0);
 
-        int size = 150;
+        int size = 90;
         int startIdx = page * size;
         int endIdx = Math.min(startIdx + size, result.size());
         List<Map<String, String>> pageData = result.subList(startIdx, endIdx);

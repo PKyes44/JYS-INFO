@@ -1,151 +1,165 @@
-const log = console.log;
-let pageData;
-let totalCount;
-let totalPage;
+const showPageCnt = 5; // 화면에 보일 페이지 번호 개수
 
-$.ajax({
-    url: '/universityInfo',  // 요청할 URL
-    type: 'post',      // 요청 타입 (GET, POST 등)
-    dataType: 'json', // 응답 데이터 타입 (JSON, XML 등)
-    success: function(response) {
-        // 서버 응답 성공 시 실행되는 콜백 함수
-        // response 변수에 서버에서 받은 데이터가 담겨 있음
-        // 원하는 작업 수행
-        console.log(response["pageData"])
+$(function() {
+  // 데이터 조회
+  searchPosts(1);
 
-        pageData = response['pageData']
+  // floatThead - 헤더 고정
+  const $table = $('#app>table');
+//  $table.floatThead({
+//    position: 'fixed',
+//    scrollContainer: true
+//  });
 
+  // 페이지당 건수(10, 30, 50)가 변경되면 재조회
+  $('#countPerPage').change(function() {
+    searchPosts(1);
+  });
 
-        totalCount = pageData.length;
-        //총 페이지
-        totalPage = Math.ceil(totalCount / 10.0);
+  // 페이지 번호 클릭
+  $(document).on('click', 'div.paging>div>div.pages>span', function() {
+    if (!$(this).hasClass('active')) {
+      $(this).parent().find('span.active').removeClass('active');
+      $(this).addClass('active');
 
-        // 페이지네이션 세팅
-        setPageHtml();
-        // 데이터 세팅
-        setList();
-//        document.addEventListener('DOMContentLoaded', () => {
-//
-//        })
-    },
-    error: function(xhr, status, error) {
-        // 서버 요청 실패 시 실행되는 콜백 함수
-        // 오류 처리 등을 수행
+      searchPosts(Number($(this).text()));
     }
+  });
+
+  // 페이징 Icon(<<, <, >, >>) 클릭
+  $(document).on('click', 'div.paging>div>i', function() {
+    const totalCnt = parseInt($('span.total').text());
+    const countPerPage = $('#countPerPage').val() || 10;
+    const totalPage = Math.ceil(totalCnt / countPerPage);
+
+    //console.log(totalCnt, countPerPage, totalPage);
+    //console.log($(this).attr('id'));
+
+    const id = $(this).attr('id');
+
+    // <<
+    if (id == 'first_page') {
+      searchPosts(1);
+    } else if (id == 'prev_page') {
+      // <
+      let arrPages = [];
+      $('div.paging>div>div.pages>span').each(function(idx, item) {
+        arrPages.push(Number($(this).text()));
+      });
+
+      const prevPage = _.min(arrPages) - showPageCnt;
+      searchPosts(prevPage);
+    } else if (id == 'next_page') {
+      // >
+      let arrPages = [];
+      $('div.paging>div>div.pages>span').each(function(idx, item) {
+        arrPages.push(Number($(this).text()));
+      });
+
+      const nextPage = _.max(arrPages) + 1;
+      searchPosts(nextPage);
+    } else if (id == 'last_page') {
+      // >>
+      const lastPage = totalPage;
+      searchPosts(lastPage);
+    }
+  });
 });
+    function toDOM(row) {
+        var tr = '';
+        tr += '<tr>';
+        tr += '  <td>' + row["A"] + '</td>';
+        tr += '  <td>' + row["D"] + '</td>';
+        tr += '  <td>' + row["F"] + '</td>';
+        tr += '  <td>' + row["G"] + '</td>';
+        tr += '  <td>' + row["H"] + '</td>';
+        tr += '  <td>' + row["I"] + '</td>';
+        tr += '</tr>';
+        return tr;
+      }
+/**
+ * 페이지별 데이터를 조회합니다.
+ * @param {int} pageNum - Page Number
+ */
+function searchPosts(pageNum) {
+  const countPerPage = $('#countPerPage').val() || 10;
+  const start = (pageNum - 1) * countPerPage;
+  //console.log(countPerPage, start);
 
+//  $.blockUI();
 
-function setPageHtml(){
+  $.ajax({
+      url: '/universityInfo',  // 요청할 URL
+      type: 'post',      // 요청 타입 (GET, POST 등)
+      dataType: 'json', // 응답 데이터 타입 (JSON, XML 등)
+      success: function(response) {
+          // 서버 응답 성공 시 실행되는 콜백 함수
+          // response 변수에 서버에서 받은 데이터가 담겨 있음
+          // 원하는 작업 수행
+          console.log(response["pageData"])
 
-    let pageHtml =
-       `<li class="page-item">
-            <a href="#;" class="page-link" onClick="changePage('first');return false;">First</a>
-        </li>
-        <li class="page-item">
-            <a href="#" class="page-link" onClick="changePage('prev');return false;">Prev</a>
-        </li>
-        <li class="page-item active">
-            <a href="#;" class="page-link" onClick="changePage(1);return false;">1</a>
-        </li>`;
-
-    for(let i = 2; i <= totalPage; i ++){
-        pageHtml +=
-            `<li class="page-item">
-               <a href="#;" class="page-link" onClick="changePage(${i});return false;">${i}</a>
-             </li>`;
-    }
-
-    pageHtml +=
-       `<li class="page-item">
-            <a href="#;" class="page-link" onClick="changePage('next');return false;">Next</a>
-        </li>
-        <li class="page-item">
-            <a href="#;" class="page-link" onClick="changePage('last');return false;">Last</a>
-        </li>`;
-
-    document.getElementById("paging").innerHTML = pageHtml;
-
-}
-
-function setList(page){
-
-    // 페이지 당 표시 될 튜플 수
-    let pageCount = 10;
-    page = page == null ? 1 : page;
-
-    // 표시될 첫 게시글
-    let startPage = (page - 1) * pageCount + 1;
-    // 표시될 마지막 게시글
-    let endPage = startPage + pageCount - 1;
-    // if(마지막 게시글 > 총 게시글) 총 게시글을 마지막 게시글로
-    endPage = endPage > totalCount ? totalCount : endPage;
-
-    showList(startPage, endPage);
-
-    let html = `${page}/${totalPage} 쪽 [총 <strong>${totalCount}</strong>건]`;
-    document.getElementById("page_info").innerHTML = html;
-
-    // 변경된 페이지 표시
-    document.querySelectorAll("#paging li").forEach( (item) => {
-        let str = item.querySelector("#paging li a").innerText;
-        if(str.includes(page)) {
-            item.classList.add("active");
-        }else{
-            item.classList.remove("active");
-        }
-    });
-
+          var pageData = response['pageData']
+          var trList = '';
+          console.log(pageData)
+          for (i = 0; i < pageData.length; i++) {
+              trList += toDOM(pageData[i]);
+          }
+          $('table>tbody').html(trList);
+            // 맨 처음에만 total값 세팅
+            if (pageNum == 1) {
+              $('span.total').text((pageData.total || 0));
+            }
+          // 페이징 정보 세팅
+          setPaging(pageNum);
+//                  $.unblockUI
+      },
+      error: function(xhr, status, error) {
+          // 서버 요청 실패 시 실행되는 콜백 함수
+          // 오류 처리 등을 수행
+      }
+  });
 }
 
 /**
- * 해당 페이지 데이터 세팅
- * @param startPage
- * @param endPage
+ * 페이징 정보를 세팅합니다.
+ * @param {int} pageNum - Page Number
  */
-function showList(startPage, endPage){
+function setPaging(pageNum) {
+  const totalCnt = parseInt($('span.total').text());
+  const countPerPage = $('#countPerPage').val() || 10;
 
-    let html = "";
+  const currentPage = pageNum;
+  const totalPage = Math.ceil(totalCnt / countPerPage);
+  //console.log(currentPage, totalPage);
 
-    for(let i = (startPage - 1) ; i < endPage; i++) {
-        row = pageData[i];
+  showAllIcon();
 
-        html += `<tr className="alert" role="alert">
-                    <th scope="row">${row["A"]}</th>
-                    <td>${row["D"]}</td>
-                    <td>${row["F"]}</td>
-                    <td>${row["G"]}</td>
-                    <td>${row["H"]}</td>
-                    <td>${row["I"]}</td>
-                  </tr>`;
+  if (currentPage <= showPageCnt) {
+    $('#first_page').hide();
+    $('#prev_page').hide();
+  }
+  if (
+    totalPage <= showPageCnt ||
+    Math.ceil(currentPage / showPageCnt) * showPageCnt + 1 > totalPage
+  ) {
+    $('#next_page').hide();
+    $('#last_page').hide();
+  }
 
-    }
-
-    document.getElementById("html_list").innerHTML = html;
+  let start = Math.floor((currentPage - 1) / showPageCnt) * showPageCnt + 1;
+  let sPagesHtml = '';
+  for (const end = start + showPageCnt; start < end && start <= totalPage; start++) {
+    sPagesHtml += '<span class="' + (start == currentPage ? 'active' : '') + '">' + start + '</span>';
+  }
+  $('div.paging>div>div.pages').html(sPagesHtml);
 }
 
-
 /**
- * 페이지 클릭 이벤트
- * @param page
- * @returns
+ * Icon(<<, <, >, >>)을 모두 보여줍니다.
  */
-function changePage(page){
-    log("page ==> " + page);
-
-    // 현재 페이지
-    let nowPage = parseInt(document.querySelector("#paging .active a").innerText);
-    log("nowPage --> " + nowPage);
-
-    if(page === "first"){
-        page = "1";
-    }else if(page === "prev"){
-        page = (nowPage - 1) < 1 ? nowPage : (nowPage - 1);
-    }else if(page === "next"){
-        page = (nowPage + 1) > totalPage ? totalPage : (nowPage + 1);
-    }else if(page === "last"){
-        page = totalPage;
-    }
-
-    if(nowPage != page)
-        setList(page);
+function showAllIcon() {
+  $('#first_page').show();
+  $('#prev_page').show();
+  $('#next_page').show();
+  $('#last_page').show();
 }
