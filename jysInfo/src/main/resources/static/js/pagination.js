@@ -1,36 +1,32 @@
 const log = console.log;
-
-// let pageData = [
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-// {"A" : "2022", "D" : "가천대", "F" : "가천대","G" : "가천대","H" : "가천대","I" : "가천대", } , 
-
-// ];
+let pageData;
+let totalCount;
+let totalPage;
 
 $.ajax({
     url: '/universityInfo',  // 요청할 URL
     type: 'post',      // 요청 타입 (GET, POST 등)
     dataType: 'json', // 응답 데이터 타입 (JSON, XML 등)
-    data: data,
     success: function(response) {
         // 서버 응답 성공 시 실행되는 콜백 함수
         // response 변수에 서버에서 받은 데이터가 담겨 있음
         // 원하는 작업 수행
         console.log(response["pageData"])
-        console.log(response["columnData"])
 
         pageData = response['pageData']
+
+
+        totalCount = pageData.length;
+        //총 페이지
+        totalPage = Math.ceil(totalCount / 10.0);
+
+        // 페이지네이션 세팅
+        setPageHtml();
+        // 데이터 세팅
+        setList();
+//        document.addEventListener('DOMContentLoaded', () => {
+//
+//        })
     },
     error: function(xhr, status, error) {
         // 서버 요청 실패 시 실행되는 콜백 함수
@@ -38,17 +34,6 @@ $.ajax({
     }
 });
 
-const totalCount = pageData.length;
-//총 페이지
-const totalPage = Math.ceil(totalCount / 10.0);
-
-
-document.addEventListener('DOMContentLoaded', () => {
-    // 페이지네이션 세팅
-    setPageHtml();
-    // 데이터 세팅
-    setList();
-})
 
 function setPageHtml(){
 

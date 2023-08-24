@@ -131,7 +131,7 @@ body {
   font-size: 22px;
 }
 .search-box {
-  position: relative;        
+  position: relative;
   float: right;
 }
 .search-box input {
@@ -184,7 +184,7 @@ table.table td a.delete {
 }
 table.table td i {
   font-size: 19px;
-}    
+}
 .pagination {
   float: right;
   margin: 0 0 5px;
@@ -203,11 +203,11 @@ table.table td i {
 }
 .pagination li a:hover {
   color: #666;
-}	
+}
 .pagination li.active a {
   background: #03A9F4;
 }
-.pagination li.active a:hover {        
+.pagination li.active a:hover {
   background: #0397d6;
 }
 .pagination li.disabled i {
@@ -221,7 +221,7 @@ table.table td i {
   float: left;
   margin-top: 6px;
   font-size: 95%;
-}    
+}
 
 .fixed-table-container {
   margin-left: 50px;

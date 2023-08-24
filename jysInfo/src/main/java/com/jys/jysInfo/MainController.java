@@ -49,24 +49,18 @@ public class MainController {
         columns.add(result.get(0));
         result.remove(0);
 
-        int size = 15;
+        int size = 75;
         int startIdx = page * size;
         int endIdx = Math.min(startIdx + size, result.size());
         List<Map<String, String>> pageData = result.subList(startIdx, endIdx);
 
         System.out.println("pageData = " + pageData);
 
-        List<Map<String, String>> paginationData = new ArrayList<>();
-        Map<String,String> tempPaginationData = new HashMap<>();
-        tempPaginationData.put("firstPage", "1");
-        tempPaginationData.put("lastPage", String.valueOf(result.size()));
-        paginationData.add(tempPaginationData);
-
         Map<String, List<Map<String,String>>> response = new HashMap<>();
         response.put("pageData", pageData);
-        response.put("paginationData", );
-        response.put()
+//        response.put("paginationData", paginationData);
 
-        return ResponseEntity.status(200).body();
+        // pageData, firstPage, lastPage
+        return ResponseEntity.status(200).body(response);
     }
 }
