@@ -29,7 +29,7 @@ $.ajax({
         // 원하는 작업 수행
         console.log(response["pageData"])
         console.log(response["columnData"])
-
+        
         pageData = response['pageData']
     },
     error: function(xhr, status, error) {
