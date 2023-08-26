@@ -23,7 +23,7 @@ public class UniversityRepository {
         return em.find(UniversityInformation.class, id);
     }
 
-    public String findList(
+    public List<UniversityInformation> findList(
             int baseYear, String establishSeparate, String schoolName, String admissionMainName,
             String admissionMediumName, String admissionSmallName, final Pageable pageable
     ) {
@@ -95,6 +95,6 @@ public class UniversityRepository {
                 .setMaxResults(pageable.getPageSize() + 1)
                 .getResultList();
 
-        return uniInfoList.toString();
+        return uniInfoList;
     }
 }
