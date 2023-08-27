@@ -81,9 +81,9 @@ public class ExcelRead {
                      * 추출 대상 컬럼이 아니라면,
                      * for로 다시 올라간다
                      */
-                    if (!readOption.getOutputColumns().contains(cellName)) {
-                        continue;
-                    }
+//                    if (!readOption.getOutputColumns().contains(cellName)) {
+//                        continue;
+//                    }
                     /*
                      * map객체의 Cell의 이름을 키(Key)로 데이터를 담는다.
                      */
