@@ -3,6 +3,7 @@ package com.jys.jysInfo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -14,6 +15,7 @@ public class UniversityRepository {
     @PersistenceContext
     EntityManager em;
 
+    @Transactional
     public Long save(UniversityInformation uniInfo) {
         em.persist(uniInfo);
         return uniInfo.getId();
