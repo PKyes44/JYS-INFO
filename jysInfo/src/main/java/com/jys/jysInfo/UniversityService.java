@@ -23,22 +23,17 @@ public class UniversityService {
     }
 
     /**
-     * Search University Information
-     * @param baseYear
-     * @param establishSeparate
-     * @param schoolName
-     * @param admissionMainName
-     * @param admissionMediumName
-     * @param admissionSmallName
+     * search University Admission Data
+     * @param searchText
      * @param pageable
      * @return
      */
-    public List<UniversityInformation> searchUniversity(
-            int baseYear, String establishSeparate, String schoolName, String admissionMainName,
-            String admissionMediumName, String admissionSmallName, final Pageable pageable
+    public List<UniversitySearchDAO> searchUniversity(String searchText, final Pageable pageable
     ) {
-        return uniRepo.findList(baseYear, establishSeparate, schoolName,
-                admissionMainName, admissionMediumName, admissionSmallName,
-                pageable);
+        return uniRepo.findList(searchText, pageable);
+    }
+
+    public int getDataCount() {
+        return uniRepo.CountById();
     }
 }

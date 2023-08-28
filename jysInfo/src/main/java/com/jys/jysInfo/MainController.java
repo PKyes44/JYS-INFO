@@ -7,7 +7,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,24 +37,40 @@ public class MainController {
     public String majorInfo() {
         return "MajorInfo";
     }
-//    @GetMapping("/universityInfo")
-//    public String universityInfo(Model model) {
-//        return "UniversityInfo";
-//    }
+    @GetMapping("/universityInfo")
+    public String universityInfo(Model model) {
+        return "UniversityInfo";
+    }
 
+    /**
+     * Search University Information
+     * @param baseYear
+     * @param establishSeparate
+     * @param schoolName
+     * @param admissionMainName
+     * @param admissionMediumName
+     * @param admissionSmallName
+     * @param pageable
+     * @return
+     */
     @ResponseBody
-    //
-    @RequestMapping("/universityInfo/{}")
-    public ResponseEntity universityExcelSearch(HttpServletRequest req, HttpServletResponse res,
-                                                @RequestParam(defaultValue = "0") int page) {
+    @PostMapping(value = {"/universityInfo"})
+    public ResponseEntity universityExcelSearch(
+            @RequestParam("q") String q,
+            HttpServletRequest req, HttpServletResponse res,
+            @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = Pageable.builder()
                 .offset(page)
-                .pageSize(15)
+                .pageSize(20)
                 .build();
 
+        List<UniversitySearchDAO> uniInfoList = uniService.searchUniversity(q, pageable);
 
+        int dataCount = uniService.getDataCount();
 
-        Map<String, List<Map<String,String>>> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
+        response.put("tableData", uniInfoList);
+        response.put("dataCount", dataCount);
 
         return ResponseEntity.status(200).body(response);
     }

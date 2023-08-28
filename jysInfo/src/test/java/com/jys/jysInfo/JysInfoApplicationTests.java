@@ -28,6 +28,32 @@ class JysInfoApplicationTests {
 
 	@Test
 	@Transactional
+	public void countTest() {
+
+		UniversityInformation uniInfo = new UniversityInformation();
+		uniInfo.setSchoolName("서울대학교");
+		uniInfo.setBaseYear("2022");
+		uniInfo.setEstablishSeparate("공립");
+		Long uniInfoId = uniRepo.save(uniInfo);
+
+		UniversityInformation uniInfo2 = new UniversityInformation();
+		uniInfo2.setSchoolName("우송대학교");
+		uniInfo2.setBaseYear("2022");
+		uniInfo2.setEstablishSeparate("공립");
+		Long uniInfoId2 = uniRepo.save(uniInfo2);
+
+		UniversityInformation uniInfo3 = new UniversityInformation();
+		uniInfo3.setSchoolName("한양대학교");
+		uniInfo3.setBaseYear("2022");
+		uniInfo3.setEstablishSeparate("사립");
+		Long uniInfoId3 = uniRepo.save(uniInfo3);
+
+		int count = uniRepo.CountById();
+		Assertions.assertThat(count == 3);
+	}
+
+	@Test
+	@Transactional
 	public void excelToDatabaseTest() {
 		ReadOption ro = new ReadOption();
 		ro.setFilePath("C:\\document\\JYS-Information\\jysInfo\\src\\main\\resources\\static\\입학전형유형별선발결과현황.xlsx");
@@ -71,7 +97,7 @@ class JysInfoApplicationTests {
 		UniversityInformation uniInfo = new UniversityInformation();
 		uniInfo.setSchoolName("서울대학교");
 		uniInfo.setBaseYear("2022");
-		uniInfo.setEstablishSeparate("사립");
+		uniInfo.setEstablishSeparate("공립");
 		Long uniInfoId = uniRepo.save(uniInfo);
 
 		UniversityInformation uniInfo2 = new UniversityInformation();
@@ -86,15 +112,12 @@ class JysInfoApplicationTests {
 		uniInfo3.setEstablishSeparate("사립");
 		Long uniInfoId3 = uniRepo.save(uniInfo3);
 
-		int baseYear = 2022;
-		String establishSeparate = "공립";
-
 		Pageable pageable = Pageable.builder()
 				.offset(0)
 				.pageSize(1)
 				.build();
 
-		List<UniversityInformation> result = uniRepo.findList(2022, establishSeparate, null, null, null, null, pageable);
+		List<UniversitySearchDAO> result = uniRepo.findList("공립", pageable);
 
 		Assertions.assertThat(pageable.getPageSize() >= result.size());
 	}
@@ -105,7 +128,7 @@ class JysInfoApplicationTests {
 		UniversityInformation uniInfo = new UniversityInformation();
 		uniInfo.setSchoolName("서울대학교");
 		uniInfo.setBaseYear("2022");
-		uniInfo.setSchoolType("사립");
+		uniInfo.setSchoolType("공립");
 		Long uniInfoId = uniRepo.save(uniInfo);
 
 		UniversityInformation uniInfo2 = new UniversityInformation();
@@ -120,26 +143,21 @@ class JysInfoApplicationTests {
 		uniInfo3.setSchoolType("사립");
 		Long uniInfoId3 = uniRepo.save(uniInfo3);
 
-		int baseYear = 2022;
-		String establishSeparate = "공립";
-
 		Pageable pageable = Pageable.builder()
 				.offset(0)
 				.pageSize(2)
 				.build();
 
-		List<UniversityInformation> result = uniRepo.findList(baseYear, establishSeparate, null, null, null, null, pageable);
+		List<UniversitySearchDAO> result = uniRepo.findList("공립", pageable);
 
-		for (UniversityInformation findUniInfo : result) {
+		for (UniversitySearchDAO findUniInfo : result) {
 			System.out.println("findUniInfo.getSchoolName() = " + findUniInfo.getSchoolName());
 			if (findUniInfo.getId().equals(uniInfo.getId())) {
 				Assertions.assertThat(findUniInfo.getSchoolName().equals(uniInfo.getSchoolName()));
-				Assertions.assertThat(findUniInfo.getSchoolType().equals(uniInfo.getSchoolType()));
 				Assertions.assertThat(findUniInfo.equals(uniInfo));
 			}
 			if (findUniInfo.getId().equals(uniInfo2.getId())) {
 				Assertions.assertThat(findUniInfo.getSchoolName().equals(uniInfo2.getSchoolName()));
-				Assertions.assertThat(findUniInfo.getSchoolType().equals(uniInfo2.getSchoolType()));
 				Assertions.assertThat(findUniInfo.equals(uniInfo2));
 			}
 		}
