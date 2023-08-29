@@ -3,6 +3,7 @@ package com.jys.jysInfo;
 import com.jys.jysInfo.excel.ExcelRead;
 import com.jys.jysInfo.excel.ReadOption;
 import jakarta.transaction.Transactional;
+import org.apache.poi.ss.formula.functions.Count;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -48,8 +49,9 @@ class JysInfoApplicationTests {
 		uniInfo3.setEstablishSeparate("사립");
 		Long uniInfoId3 = uniRepo.save(uniInfo3);
 
-		String count = uniRepo.CountById();
-		System.out.println("count = " + count);
+		List<CountDAO> count = uniRepo.CountById();
+		System.out.println("count = " + count.get(0));
+		System.out.println("count = " + count.get(0).getClass().getName());
 	}
 
 	@Test

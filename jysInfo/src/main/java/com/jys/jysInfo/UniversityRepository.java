@@ -2,11 +2,9 @@ package com.jys.jysInfo;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +60,11 @@ public class UniversityRepository {
         return uniInfoList;
     }
 
-    public String CountById() {
-        List<String> uniCount = em.createQuery("select count(u.id) as count from UniversityInformation u")
+    public List<CountDAO> CountById() {
+        List<CountDAO> uniCount = em.createQuery("select count(u.id) as `count` from UniversityInformation u", CountDAO.class)
                 .getResultList();
-        return uniCount.get(0);
+        System.out.println(uniCount);
+        return uniCount;
     }
 
 }

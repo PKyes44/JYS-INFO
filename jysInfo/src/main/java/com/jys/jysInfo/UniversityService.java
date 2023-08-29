@@ -33,7 +33,7 @@ public class UniversityService {
         return uniRepo.findList(searchText, pageable);
     }
 
-    public String getDataCount() {
-        return uniRepo.CountById();
+    public CountDAO getDataCount() {
+        return uniRepo.CountById().get(0);
     }
 }

@@ -54,11 +54,11 @@ public class MainController {
 
         List<UniversityInformation> uniInfoList = uniService.searchUniversity(q, pageable);
 
-        String dataCount = uniService.getDataCount();
+//        CountDAO dataCount = uniService.getDataCount();
 
         Map<String, Object> response = new HashMap<>();
         response.put("tableData", uniInfoList);
-        response.put("dataCount", dataCount);
+//        response.put("dataCount", dataCount);
 
         return ResponseEntity.status(200).body(response);
     }
