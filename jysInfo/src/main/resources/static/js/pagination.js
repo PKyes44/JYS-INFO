@@ -1,165 +1,162 @@
-const showPageCnt = 5; // 화면에 보일 페이지 번호 개수
+const log = console.log;
+let pageData;
+let totalCount;
+//총 페이지
+let totalPage;
+let nowPage;
 
-$(function() {
-  // 데이터 조회
-  searchPosts(1);
+document.addEventListener('DOMContentLoaded', () => {
+    // 데이터 세팅
+    setList(1);
+})
 
-  // floatThead - 헤더 고정
-  const $table = $('#app>table');
-//  $table.floatThead({
-//    position: 'fixed',
-//    scrollContainer: true
-//  });
+function setPageHtml(startPage){
 
-  // 페이지당 건수(10, 30, 50)가 변경되면 재조회
-  $('#countPerPage').change(function() {
-    searchPosts(1);
-  });
-
-  // 페이지 번호 클릭
-  $(document).on('click', 'div.paging>div>div.pages>span', function() {
-    if (!$(this).hasClass('active')) {
-      $(this).parent().find('span.active').removeClass('active');
-      $(this).addClass('active');
-
-      searchPosts(Number($(this).text()));
+    let pageHtml =
+       `<li class="page-item">
+            <a href="#;" class="page-link" onClick="changePage('first');return false;">First</a>
+        </li>
+        <li class="page-item">
+            <a href="#" class="page-link" onClick="changePage('prev');return false;">Prev</a>
+        </li>
+        <li class="page-item active">
+            <a href="#;" class="page-link" onClick="changePage(${startPage});return false;">${startPage}</a>
+        </li>`;
+    var startBtnCnt;
+    console.log("totalPage : " + totalPage + " startPage+4 : " + startPage+4)
+    if (totalPage >= startPage+4) {
+        startBtnCnt = startPage+4;
+    } else {
+        startBtnCnt = totalPage
     }
-  });
-
-  // 페이징 Icon(<<, <, >, >>) 클릭
-  $(document).on('click', 'div.paging>div>i', function() {
-    const totalCnt = parseInt($('span.total').text());
-    const countPerPage = $('#countPerPage').val() || 10;
-    const totalPage = Math.ceil(totalCnt / countPerPage);
-
-    //console.log(totalCnt, countPerPage, totalPage);
-    //console.log($(this).attr('id'));
-
-    const id = $(this).attr('id');
-
-    // <<
-    if (id == 'first_page') {
-      searchPosts(1);
-    } else if (id == 'prev_page') {
-      // <
-      let arrPages = [];
-      $('div.paging>div>div.pages>span').each(function(idx, item) {
-        arrPages.push(Number($(this).text()));
-      });
-
-      const prevPage = _.min(arrPages) - showPageCnt;
-      searchPosts(prevPage);
-    } else if (id == 'next_page') {
-      // >
-      let arrPages = [];
-      $('div.paging>div>div.pages>span').each(function(idx, item) {
-        arrPages.push(Number($(this).text()));
-      });
-
-      const nextPage = _.max(arrPages) + 1;
-      searchPosts(nextPage);
-    } else if (id == 'last_page') {
-      // >>
-      const lastPage = totalPage;
-      searchPosts(lastPage);
+    console.log("startBtnCnt : " + startBtnCnt)
+    for(let i = startPage+1; i <= startBtnCnt; i ++){
+        pageHtml +=
+            `<li class="page-item">
+               <a href="#;" class="page-link" onClick="changePage(${i});return false;">${i}</a>
+             </li>`;
     }
-  });
-});
-    function toDOM(row) {
-        var tr = '';
-        tr += '<tr>';
-        tr += '  <td>' + row["A"] + '</td>';
-        tr += '  <td>' + row["D"] + '</td>';
-        tr += '  <td>' + row["F"] + '</td>';
-        tr += '  <td>' + row["G"] + '</td>';
-        tr += '  <td>' + row["H"] + '</td>';
-        tr += '  <td>' + row["I"] + '</td>';
-        tr += '</tr>';
-        return tr;
-      }
-/**
- * 페이지별 데이터를 조회합니다.
- * @param {int} pageNum - Page Number
- */
-function searchPosts(pageNum) {
-  const countPerPage = $('#countPerPage').val() || 10;
-  const start = (pageNum - 1) * countPerPage;
-  //console.log(countPerPage, start);
 
-//  $.blockUI();
+    pageHtml +=
+       `<li class="page-item">
+            <a href="#;" class="page-link" onClick="changePage('next');return false;">Next</a>
+        </li>
+        <li class="page-item">
+            <a href="#;" class="page-link" onClick="changePage('last');return false;">Last</a>
+        </li>`;
 
-  $.ajax({
-      url: '/universityInfo',  // 요청할 URL
-      type: 'post',      // 요청 타입 (GET, POST 등)
-      dataType: 'json', // 응답 데이터 타입 (JSON, XML 등)
-      success: function(response) {
-          // 서버 응답 성공 시 실행되는 콜백 함수
-          // response 변수에 서버에서 받은 데이터가 담겨 있음
-          // 원하는 작업 수행
-          console.log(response["pageData"])
+    document.getElementById("paging").innerHTML = pageHtml;
+}
+function setList(page){
 
-          var pageData = response['pageData']
-          var trList = '';
-          console.log(pageData)
-          for (i = 0; i < pageData.length; i++) {
-              trList += toDOM(pageData[i]);
-          }
-          $('table>tbody').html(trList);
-            // 맨 처음에만 total값 세팅
-            if (pageNum == 1) {
-              $('span.total').text((pageData.total || 0));
-            }
-          // 페이징 정보 세팅
-          setPaging(pageNum);
-//                  $.unblockUI
-      },
-      error: function(xhr, status, error) {
-          // 서버 요청 실패 시 실행되는 콜백 함수
-          // 오류 처리 등을 수행
-      }
-  });
+    // 페이지 당 표시 될 튜플 수
+    let pageCount = 15;
+    page = page == null ? 1 : page;
+
+    let html = `${page}/${totalPage} 쪽 [총 <strong>${totalCount}</strong>건]`;
+    document.getElementById("page_info").innerHTML = html;
+
+    document.getElementById("paging").textContent = null;
+    setPageHtml(page)
+
+    // 변경된 페이지 표시
+    document.querySelectorAll("#paging li").forEach( (item) => {
+        let str = item.querySelector("#paging li a").innerText;
+        if(str.includes(page)) {
+            item.classList.add("active");
+        }else{
+            item.classList.remove("active");
+        }
+    });
+
 }
 
 /**
- * 페이징 정보를 세팅합니다.
- * @param {int} pageNum - Page Number
+ * 해당 페이지 데이터 세팅
+ * @param startPage
+ * @param endPage
  */
-function setPaging(pageNum) {
-  const totalCnt = parseInt($('span.total').text());
-  const countPerPage = $('#countPerPage').val() || 10;
-
-  const currentPage = pageNum;
-  const totalPage = Math.ceil(totalCnt / countPerPage);
-  //console.log(currentPage, totalPage);
-
-  showAllIcon();
-
-  if (currentPage <= showPageCnt) {
-    $('#first_page').hide();
-    $('#prev_page').hide();
-  }
-  if (
-    totalPage <= showPageCnt ||
-    Math.ceil(currentPage / showPageCnt) * showPageCnt + 1 > totalPage
-  ) {
-    $('#next_page').hide();
-    $('#last_page').hide();
-  }
-
-  let start = Math.floor((currentPage - 1) / showPageCnt) * showPageCnt + 1;
-  let sPagesHtml = '';
-  for (const end = start + showPageCnt; start < end && start <= totalPage; start++) {
-    sPagesHtml += '<span class="' + (start == currentPage ? 'active' : '') + '">' + start + '</span>';
-  }
-  $('div.paging>div>div.pages').html(sPagesHtml);
+function showList(page, pageCount){
+    var trList = '';
+    for (i = 0; i < pageCount; i++) {
+        trList += toDOM(pageData[i]);
+    }
+    console.log(trList);
+    document.getElementById("html_list").innerHTML = trList;
 }
 
+
+function toDOM(row) {
+    var tr = '';
+    tr += '<tr className="alert role="alert">';
+    tr += '  <td>' + row["baseYear"] + '</td>'; // 기준년도
+    tr += '  <td>' + row["establishSeparate"] + '</td>'; // 설립구분명
+    tr += '  <td>' + row["schoolName"] + '</td>'; // 학교명
+    tr += '  <td>' + row["admissionMainName"] + '</td>'; // 전형대분류명
+    tr += '  <td>' + row["admissionMediumName"] + '</td>'; // 전형중분류명
+    tr += '  <td>' + row["admissionMediumName"] + '</td>'; // 전형소분류명
+    tr += '</tr>';
+    return tr;
+}
+
+function ajax(page) {
+    var searchText = document.getElementById("html_list").value;
+    console.log(searchText)
+    let data = {
+        searchText: searchText,
+        page: page
+    }
+    // jQuery를 이용한 AJAX 요청
+    $.ajax({
+        url: '/universityInfo',  // 요청할 URL
+        type: 'post',      // 요청 타입 (GET, POST 등)
+        dataType: 'json', // 응답 데이터 타입 (JSON, XML 등)
+        data: data,
+        async: true, //비동기 여부
+        timeout: 10000, //타임 아웃 설정 (1000 = 1초)
+        success: function(response) {
+            // 서버 응답 성공 시 실행되는 콜백 함수
+            // response 변수에 서버에서 받은 데이터가 담겨 있음
+            // 원하는 작업 수행
+            console.log(response["tableData"])
+            console.log(response["dataCount"])
+
+            pageData = response['tableData']
+            totalCount = response['dataCount']
+            totalPage = Math.ceil(totalCount / 10.0)
+
+        },
+        error: function(xhr, status, error) {
+            // 서버 요청 실패 시 실행되는 콜백 함수
+            // 오류 처리 등을 수행
+        }
+    });
+}
+
+
 /**
- * Icon(<<, <, >, >>)을 모두 보여줍니다.
+ * 페이지 클릭 이벤트
+ * @param page
+ * @returns
  */
-function showAllIcon() {
-  $('#first_page').show();
-  $('#prev_page').show();
-  $('#next_page').show();
-  $('#last_page').show();
+function changePage(page){
+    log("page ==> " + page);
+
+    // 현재 페이지
+    nowPage = parseInt(document.querySelector("#paging .active a").innerText);
+    log("nowPage --> " + nowPage);
+
+    if(page === "first"){
+        page = 1;
+    }else if(page === "prev"){
+        page = (nowPage - 1) < 1 ? nowPage : (nowPage - 1);
+    }else if(page === "next"){
+        page = (nowPage + 1) > totalPage ? totalPage : (nowPage + 1);
+    }else if(page === "last"){
+        page = totalPage;
+    }
+
+    if(nowPage != page)
+        console.log("page : " + page)
+        setList(page);
 }

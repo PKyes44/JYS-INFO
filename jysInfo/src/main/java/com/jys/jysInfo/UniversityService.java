@@ -28,7 +28,7 @@ public class UniversityService {
      * @param pageable
      * @return
      */
-    public List<UniversitySearchDAO> searchUniversity(String searchText, final Pageable pageable
+    public List<UniversityInformation> searchUniversity(String searchText, final Pageable pageable
     ) {
         return uniRepo.findList(searchText, pageable);
     }

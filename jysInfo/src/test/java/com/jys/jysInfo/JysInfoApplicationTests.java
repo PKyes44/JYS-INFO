@@ -117,7 +117,7 @@ class JysInfoApplicationTests {
 				.pageSize(1)
 				.build();
 
-		List<UniversitySearchDAO> result = uniRepo.findList("공립", pageable);
+		List<UniversityInformation> result = uniRepo.findList("공립", pageable);
 
 		Assertions.assertThat(pageable.getPageSize() >= result.size());
 	}
@@ -148,9 +148,9 @@ class JysInfoApplicationTests {
 				.pageSize(2)
 				.build();
 
-		List<UniversitySearchDAO> result = uniRepo.findList("공립", pageable);
+		List<UniversityInformation> result = uniRepo.findList("공립", pageable);
 
-		for (UniversitySearchDAO findUniInfo : result) {
+		for (UniversityInformation findUniInfo : result) {
 			System.out.println("findUniInfo.getSchoolName() = " + findUniInfo.getSchoolName());
 			if (findUniInfo.getId().equals(uniInfo.getId())) {
 				Assertions.assertThat(findUniInfo.getSchoolName().equals(uniInfo.getSchoolName()));

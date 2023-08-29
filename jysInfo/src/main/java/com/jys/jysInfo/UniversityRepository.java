@@ -26,8 +26,8 @@ public class UniversityRepository {
         return em.find(UniversityInformation.class, id);
     }
 
-    public List<UniversitySearchDAO> findList(String searchText, final Pageable pageable) {
-        String jpQuery = "select u.baseYear, u.establishSeparate, u.schoolName, u.admissionMainName, u.admissionMediumName, u.admissionSmallName from UniversityInformation u";
+    public List<UniversityInformation> findList(String searchText, final Pageable pageable) {
+        String jpQuery = "select u from UniversityInformation u";
 
         String whereSql = " where ";
         List<String> whereCondition = new ArrayList<>();
@@ -48,11 +48,11 @@ public class UniversityRepository {
         jpQuery += String.join(" or ", whereCondition);
 
         // 조건에 따라서 각각의 where문에 parameter 설정
-        TypedQuery<UniversitySearchDAO> query = em.createQuery(jpQuery, UniversitySearchDAO.class);
+        TypedQuery<UniversityInformation> query = em.createQuery(jpQuery, UniversityInformation.class);
 
         query.setParameter("searchText", searchText);
 
-        List<UniversitySearchDAO> uniInfoList = query
+        List<UniversityInformation> uniInfoList = query
                 // 몇 페이지인지 설정
                 .setFirstResult(pageable.getOffset())
                 // 페이지당 몇 개 가져올지 설정

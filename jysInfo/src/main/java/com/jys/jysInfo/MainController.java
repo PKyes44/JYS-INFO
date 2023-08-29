@@ -41,30 +41,18 @@ public class MainController {
     public String universityInfo(Model model) {
         return "UniversityInfo";
     }
-
-    /**
-     * Search University Information
-     * @param baseYear
-     * @param establishSeparate
-     * @param schoolName
-     * @param admissionMainName
-     * @param admissionMediumName
-     * @param admissionSmallName
-     * @param pageable
-     * @return
-     */
     @ResponseBody
     @PostMapping(value = {"/universityInfo"})
     public ResponseEntity universityExcelSearch(
-            @RequestParam("q") String q,
+            @RequestParam(value = "searchText", defaultValue = "") String q,
             HttpServletRequest req, HttpServletResponse res,
-            @RequestParam(defaultValue = "0") int page) {
+            @RequestParam(defaultValue = "0", value = "page") int page) {
         Pageable pageable = Pageable.builder()
                 .offset(page)
                 .pageSize(20)
                 .build();
 
-        List<UniversitySearchDAO> uniInfoList = uniService.searchUniversity(q, pageable);
+        List<UniversityInformation> uniInfoList = uniService.searchUniversity(q, pageable);
 
         int dataCount = uniService.getDataCount();
 
