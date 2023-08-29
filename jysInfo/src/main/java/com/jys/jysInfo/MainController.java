@@ -54,7 +54,7 @@ public class MainController {
 
         List<UniversityInformation> uniInfoList = uniService.searchUniversity(q, pageable);
 
-        int dataCount = uniService.getDataCount();
+        String dataCount = uniService.getDataCount();
 
         Map<String, Object> response = new HashMap<>();
         response.put("tableData", uniInfoList);

@@ -7,7 +7,7 @@ let nowPage;
 
 document.addEventListener('DOMContentLoaded', () => {
     // 데이터 세팅
-    setList(1);
+    ajax(1)
 })
 
 function setPageHtml(startPage){
@@ -119,12 +119,12 @@ function ajax(page) {
             // response 변수에 서버에서 받은 데이터가 담겨 있음
             // 원하는 작업 수행
             console.log(response["tableData"])
-            console.log(response["dataCount"])
+            console.log("totalCount : " + response["dataCount"])
 
             pageData = response['tableData']
             totalCount = response['dataCount']
             totalPage = Math.ceil(totalCount / 10.0)
-
+            setList(page)
         },
         error: function(xhr, status, error) {
             // 서버 요청 실패 시 실행되는 콜백 함수
@@ -158,5 +158,5 @@ function changePage(page){
 
     if(nowPage != page)
         console.log("page : " + page)
-        setList(page);
+        ajax(page)
 }

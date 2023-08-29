@@ -48,8 +48,8 @@ class JysInfoApplicationTests {
 		uniInfo3.setEstablishSeparate("사립");
 		Long uniInfoId3 = uniRepo.save(uniInfo3);
 
-		int count = uniRepo.CountById();
-		Assertions.assertThat(count == 3);
+		String count = uniRepo.CountById();
+		System.out.println("count = " + count);
 	}
 
 	@Test

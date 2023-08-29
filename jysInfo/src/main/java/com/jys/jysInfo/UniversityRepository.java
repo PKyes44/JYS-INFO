@@ -62,10 +62,10 @@ public class UniversityRepository {
         return uniInfoList;
     }
 
-    public int CountById() {
-        int uniCount = em.createQuery("select count(u.id) from UniversityInformation u")
-                .getFirstResult();
-        return uniCount;
+    public String CountById() {
+        List<String> uniCount = em.createQuery("select count(u.id) as count from UniversityInformation u")
+                .getResultList();
+        return uniCount.get(0);
     }
 
 }
