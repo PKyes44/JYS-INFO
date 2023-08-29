@@ -4,6 +4,7 @@ let totalCount;
 //총 페이지
 let totalPage;
 let nowPage;
+let page;
 
 document.addEventListener('DOMContentLoaded', () => {
     // 데이터 세팅
@@ -77,20 +78,30 @@ function setList(page){
 
 function showList(page, pageCount){
     var trList = '';
+
+    var index;
+    if (page == 1) {
+        index = 1;
+    } else {
+        index = (pageCount * (page - 1)) + 1
+    }
     for (i = 0; i < pageCount; i++) {
-        trList += toDOM(pageData[i]);
+        var seq = index + i;
+        trList += toDOM(seq, pageData[i]);
     }
     console.log(trList);
     document.getElementById("html_list").innerHTML = trList;
 }
 
 
-function toDOM(row) {
+function toDOM(seq, row) {
     var tr = '';
     tr += '<tr className="alert role="alert">';
+    tr += '  <th scope="row">' + seq + '</td>'; // 인덱스
     tr += '  <td>' + row["baseYear"] + '</td>'; // 기준년도
     tr += '  <td>' + row["establishSeparate"] + '</td>'; // 설립구분명
     tr += '  <td>' + row["schoolName"] + '</td>'; // 학교명
+    tr += '  <td>' + row["admissionType"] + '</td>'; // 전형유형명
     tr += '  <td>' + row["admissionMainName"] + '</td>'; // 전형대분류명
     tr += '  <td>' + row["admissionMediumName"] + '</td>'; // 전형중분류명
     tr += '  <td>' + row["admissionMediumName"] + '</td>'; // 전형소분류명
@@ -98,8 +109,8 @@ function toDOM(row) {
     return tr;
 }
 
-function ajax(page) {
-    var searchText = document.getElementById("html_list").value;
+function ajax() {
+    var searchText = document.getElementById("searchInput").value;
     console.log("searchText : " + searchText)
     let data = {
         searchText: searchText,

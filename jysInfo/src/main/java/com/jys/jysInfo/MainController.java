@@ -46,7 +46,7 @@ public class MainController {
     public ResponseEntity universityExcelSearch(
             @RequestParam(value = "searchText", defaultValue = "") String q,
             HttpServletRequest req, HttpServletResponse res,
-            @RequestParam(defaultValue = "0", value = "page") int page) {
+            @RequestParam(defaultValue = "1", value = "page") int page) {
         int pageSize = 15;
 
         Pageable pageable = Pageable.builder()

@@ -7,6 +7,7 @@
     <meta name="author" content="" />
     <title>Heroic Features - Start Bootstrap Template</title>
     <!-- Bootstrap icons-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link th:href="@{/css/universityView.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link th:href="@{/css/style.css}" rel="stylesheet">
@@ -38,7 +39,7 @@
             <div class="col-sm-4">
                 <div class="search-box">
                     <i class="material-icons">&#xE8B6;</i>
-                    <input type="text" class="form-control" id="searchInput" placeholder="Search&hellip;">
+                    <input type="text" class="form-control" id="searchInput" onkeyup="ajax()" placeholder="Search&hellip;">
                 </div>
             </div>
         </div>
