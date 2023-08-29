@@ -56,6 +56,10 @@ function setList(page){
     let html = `${page}/${totalPage} 쪽 [총 <strong>${totalCount}</strong>건]`;
     document.getElementById("page_info").innerHTML = html;
 
+    console.log("showList ready");
+    showList(page, pageCount);
+    console.log("showList success");
+
     document.getElementById("paging").textContent = null;
     setPageHtml(page)
 
@@ -71,11 +75,6 @@ function setList(page){
 
 }
 
-/**
- * 해당 페이지 데이터 세팅
- * @param startPage
- * @param endPage
- */
 function showList(page, pageCount){
     var trList = '';
     for (i = 0; i < pageCount; i++) {
@@ -101,7 +100,7 @@ function toDOM(row) {
 
 function ajax(page) {
     var searchText = document.getElementById("html_list").value;
-    console.log(searchText)
+    console.log("searchText : " + searchText)
     let data = {
         searchText: searchText,
         page: page

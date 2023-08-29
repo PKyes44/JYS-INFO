@@ -51,7 +51,7 @@ class JysInfoApplicationTests {
 
 		List<CountDAO> count = uniRepo.CountById();
 		System.out.println("count = " + count.get(0));
-		System.out.println("count = " + count.get(0).getClass().getName());
+		System.out.println("count = " + count.getClass().getName());
 	}
 
 	@Test

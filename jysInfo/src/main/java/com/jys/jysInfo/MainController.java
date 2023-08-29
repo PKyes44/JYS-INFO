@@ -47,18 +47,21 @@ public class MainController {
             @RequestParam(value = "searchText", defaultValue = "") String q,
             HttpServletRequest req, HttpServletResponse res,
             @RequestParam(defaultValue = "0", value = "page") int page) {
+        int pageSize = 15;
+
         Pageable pageable = Pageable.builder()
-                .offset(page)
-                .pageSize(20)
+                .offset((page-1) * pageSize)
+                .pageSize(pageSize)
                 .build();
 
         List<UniversityInformation> uniInfoList = uniService.searchUniversity(q, pageable);
 
-//        CountDAO dataCount = uniService.getDataCount();
+        List<CountDAO> dataCount = uniService.getDataCount();
 
         Map<String, Object> response = new HashMap<>();
         response.put("tableData", uniInfoList);
-//        response.put("dataCount", dataCount);
+        response.put("dataCount", dataCount.get(0));
+        response.put("pageSize", pageSize);
 
         return ResponseEntity.status(200).body(response);
     }
