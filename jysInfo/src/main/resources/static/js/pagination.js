@@ -97,7 +97,7 @@ function toDOM(row) {
     tr += '  <td>' + row["admissionMainName"] + '</td>'; // 전형대분류명
     tr += '  <td>' + row["admissionMediumName"] + '</td>'; // 전형중분류명
     tr += '  <td>' + row["admissionMediumName"] + '</td>'; // 전형소분류명
-    tr += '  <td><button onclick="viewDetail(' + row['id'] + ')"><i class="material-icons" style="vertical-align: middle;">&#xE8B6;</i></button></td>'
+    tr += '  <td><a href="/universityInfo/detail?id=' + row['id'] + '"><i class="material-icons" style="vertical-align: middle;">&#xE8B6;</i></a></td>'
     tr += '</tr>';
     return tr;
 }

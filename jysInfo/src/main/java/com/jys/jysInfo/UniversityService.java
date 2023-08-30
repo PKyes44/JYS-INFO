@@ -22,13 +22,10 @@ public class UniversityService {
         }
     }
 
-    /**
-     * search University Admission Data
-     * @param searchText
-     * @param pageable
-     * @return
-     */
-    public List<UniversityInformation> searchUniversity(String searchText, final Pageable pageable
+    public UniversityInformation getUniversityInfo(long id) {
+        return uniRepo.findOne(id);
+    }
+    public List<UniversityInformation> getSearchUniversity(String searchText, final Pageable pageable
     ) {
         return uniRepo.findList(searchText, pageable);
     }

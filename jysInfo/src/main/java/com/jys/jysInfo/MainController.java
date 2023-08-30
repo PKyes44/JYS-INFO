@@ -7,10 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,13 +36,12 @@ public class MainController {
     }
     @GetMapping("/universityInfo")
     public String universityInfo(Model model) {
-        return "UniversityInfo";
+        return "/university/InformationTable";
     }
     @ResponseBody
     @PostMapping(value = {"/universityInfo"})
-    public ResponseEntity universityExcelSearch(
+    public ResponseEntity universitySearch(
             @RequestParam(value = "searchText", defaultValue = "") String q,
-            HttpServletRequest req, HttpServletResponse res,
             @RequestParam(defaultValue = "1", value = "page") int page) {
         int pageSize = 15;
 
@@ -56,7 +52,7 @@ public class MainController {
                 .pageSize(pageSize)
                 .build();
 
-        List<UniversityInformation> uniInfoList = uniService.searchUniversity(q, pageable);
+        List<UniversityInformation> uniInfoList = uniService.getSearchUniversity(q, pageable);
 
         List<CountDAO> dataCount = new ArrayList<>();
         if (q.isEmpty()) {
@@ -71,5 +67,14 @@ public class MainController {
         response.put("pageSize", pageSize);
 
         return ResponseEntity.status(200).body(response);
+    }
+
+    @ResponseBody
+    @GetMapping(value = {"/universityInfo/detail"})
+    public String universityDetail(@RequestParam(value = "id") long id, Model model) {
+        System.out.println("id = " + id);
+        UniversityInformation universityInfo = uniService.getUniversityInfo(id);
+        model.addAttribute("detailData", universityInfo);
+        return "/university/detail";
     }
 }
