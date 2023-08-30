@@ -79,25 +79,18 @@ function setList(page){
 function showList(page, pageCount){
     var trList = '';
 
-    var index;
-    if (page == 1) {
-        index = 1;
-    } else {
-        index = (pageCount * (page - 1)) + 1
-    }
     for (i = 0; i < pageCount; i++) {
-        var seq = index + i;
-        trList += toDOM(seq, pageData[i]);
+        trList += toDOM(pageData[i]);
     }
     console.log(trList);
     document.getElementById("html_list").innerHTML = trList;
 }
 
 
-function toDOM(seq, row) {
+function toDOM(row) {
     var tr = '';
     tr += '<tr className="alert role="alert">';
-    tr += '  <th scope="row">' + seq + '</td>'; // 인덱스
+    tr += '  <th scope="row">' + row["id"] + '</td>'; // 인덱스
     tr += '  <td>' + row["baseYear"] + '</td>'; // 기준년도
     tr += '  <td>' + row["establishSeparate"] + '</td>'; // 설립구분명
     tr += '  <td>' + row["schoolName"] + '</td>'; // 학교명
@@ -105,6 +98,7 @@ function toDOM(seq, row) {
     tr += '  <td>' + row["admissionMainName"] + '</td>'; // 전형대분류명
     tr += '  <td>' + row["admissionMediumName"] + '</td>'; // 전형중분류명
     tr += '  <td>' + row["admissionMediumName"] + '</td>'; // 전형소분류명
+//    tr += '  <td>' +
     tr += '</tr>';
     return tr;
 }

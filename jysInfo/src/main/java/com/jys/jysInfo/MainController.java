@@ -47,8 +47,10 @@ public class MainController {
             @RequestParam(value = "searchText", defaultValue = "") String q,
             HttpServletRequest req, HttpServletResponse res,
             @RequestParam(defaultValue = "1", value = "page") int page) {
-        int pageSize = 15;
+        int pageSize = 14;
 
+        System.out.println("page = " + page);
+        
         Pageable pageable = Pageable.builder()
                 .offset((page-1) * pageSize)
                 .pageSize(pageSize)
