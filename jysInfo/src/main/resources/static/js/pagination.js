@@ -4,7 +4,6 @@ let totalCount;
 //총 페이지
 let totalPage;
 let nowPage;
-let page;
 
 document.addEventListener('DOMContentLoaded', () => {
     // 데이터 세팅
@@ -79,7 +78,7 @@ function setList(page){
 function showList(page, pageCount){
     var trList = '';
 
-    for (i = 0; i < pageCount; i++) {
+    for (i = 0; i < pageData.length; i++) {
         trList += toDOM(pageData[i]);
     }
     console.log(trList);
@@ -98,18 +97,23 @@ function toDOM(row) {
     tr += '  <td>' + row["admissionMainName"] + '</td>'; // 전형대분류명
     tr += '  <td>' + row["admissionMediumName"] + '</td>'; // 전형중분류명
     tr += '  <td>' + row["admissionMediumName"] + '</td>'; // 전형소분류명
-//    tr += '  <td>' +
+    tr += '  <td><button onclick="viewDetail(' + row['id'] + ')"><i class="material-icons" style="vertical-align: middle;">&#xE8B6;</i></button></td>'
     tr += '</tr>';
     return tr;
 }
 
-function ajax() {
+function viewDetail(id) {
+    console.log("viewDetail : " + id);
+}
+
+function ajax(page) {
     var searchText = document.getElementById("searchInput").value;
-    console.log("searchText : " + searchText)
+    console.log("searchText : " + searchText);
+    console.log("AJAX request page : " + page);
     let data = {
         searchText: searchText,
         page: page
-    }
+    };
     // jQuery를 이용한 AJAX 요청
     $.ajax({
         url: '/universityInfo',  // 요청할 URL
@@ -125,10 +129,11 @@ function ajax() {
             console.log(response["tableData"])
             console.log("totalCount : " + response["dataCount"])
 
-            pageData = response['tableData']
-            totalCount = response['dataCount']
-            totalPage = Math.ceil(totalCount / 10.0)
-            setList(page)
+            pageData = response['tableData'];
+            totalCount = response['dataCount'];
+            pageSize = response['pageSize'];
+            totalPage = Math.ceil(totalCount / pageSize);
+            setList(page);
         },
         error: function(xhr, status, error) {
             // 서버 요청 실패 시 실행되는 콜백 함수

@@ -67,4 +67,35 @@ public class UniversityRepository {
         return uniCount;
     }
 
+    public List<CountDAO> CountBySearch(String searchText) {
+        String jpQuery = "select count(u.id) as `count` from UniversityInformation u";
+
+        String whereSql = " where ";
+        List<String> whereCondition = new ArrayList<>();
+        // 기준년도
+        whereCondition.add("u.baseYear like concat('%',:searchText,'%')");
+        // 설립구분명 (공립/사립)
+        whereCondition.add("u.establishSeparate = :searchText");
+        // 학교명
+        whereCondition.add("u.schoolName like concat('%',:searchText,'%')");
+        // 전형대분류명
+        whereCondition.add("u.admissionMainName like concat('%',:searchText,'%')");
+        // 전형중분류명
+        whereCondition.add("u.admissionMediumName like concat('%',:searchText,'%')");
+        // 전형소분류명
+        whereCondition.add("u.admissionSmallName like concat('%',:searchText,'%')");
+
+        jpQuery += whereSql;
+        jpQuery += String.join(" or ", whereCondition);
+
+        // 조건에 따라서 각각의 where문에 parameter 설정
+        TypedQuery<CountDAO> query = em.createQuery(jpQuery, CountDAO.class);
+
+        query.setParameter("searchText", searchText);
+
+        List<CountDAO> uniInfoList = query
+                .getResultList();
+
+        return uniInfoList;
+    }
 }

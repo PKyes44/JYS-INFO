@@ -9,18 +9,22 @@
     <!-- Bootstrap icons-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link th:href="@{/css/style.css}" rel="stylesheet">
-    <link th:href="@{/css/universityView.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css?ver=<%=System.currentTimeMillis()%>}" rel="stylesheet">
+    <link th:href="@{/css/universityView.css?ver=<%=System.currentTimeMillis()%>}" rel="stylesheet">
     <style>
         .th {
-            padding: 15px;
+            padding: 10px;
             text-align: center;
+            vertical-align: middle;
+        }
+        .page-link {
+            text-decoration-line: none;
         }
     </style>
 </head>
 <body style="background-color: white;">
 <!-- Responsive navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark1">
     <div class="container px-lg-5">
         <a class="navbar-brand" href="#!">LOGO</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -66,6 +70,7 @@
                             <th>전형대분류</th>
                             <th>전형중분류</th>
                             <th>전형소분류</th>
+                            <th>View More</th>
                         </tr>
                         </thead>
                         <tbody id="html_list">
@@ -82,12 +87,12 @@
     </div>
 </section>
 <!-- Footer-->
-<footer class="py-5 bg-dark">
+<footer class="py-5 bg-dark1">
     <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2023</p></div>
 </footer>
 <!-- Core theme JS-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!--<script th:src="@{/js/jquery.blockUI.js}"></script>-->
-<script th:src="@{/js/pagination.js}"></script>
+<script th:src="@{/js/pagination.js?ver=<%=System.currentTimeMillis()%>}"></script>
 </body>
 </html>

@@ -36,4 +36,7 @@ public class UniversityService {
     public List<CountDAO> getDataCount() {
         return uniRepo.CountById();
     }
+    public List<CountDAO> getSearchCount(String searchText) {
+        return uniRepo.CountBySearch(searchText);
+    }
 }
