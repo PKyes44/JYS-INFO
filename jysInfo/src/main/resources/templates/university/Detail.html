@@ -11,7 +11,7 @@
     <!-- Chart -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" th:src="@{/js/Detail.js?ver=<%=System.currentTimeMillis()%>}"></script>
-    <style> 
+    <style>
       .chart-area {
         display: flex;
       }
@@ -57,7 +57,7 @@
     <div class="row py-5">
         <div class="col-lg-10 mx-auto">
             <div class="card rounded shadow border-0">
-                <h2 style="font-weight: bold; margin: auto; padding-top: 20px;">
+                <h2 style="font-weight: bold; margin: auto; padding-top: 20px;" th:text="{detail.schoolName}">
                     한양대학교
                 </h2>
                 <br>
@@ -76,9 +76,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
+                                <td th:text="{detailData.earlyDecisionRecruit}">61</td>
+                                <td th:text="{detailData.earlyDecisionSignCnt}">2011/04/25</td>
+                                <td th:text="{detailData.earlyDecisionSignPercent}">$320,800</td>
                             </tr>
                             </tbody>
                         </table>
@@ -95,9 +95,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
+                                <td th:text="{detailData.regularDecisionRecruit}">61</td>
+                                <td th:text="{detailData.regularDecisionSignCnt}">2011/04/25</td>
+                                <td th:text="{detailData.}">$320,800</td>
                             </tr>
                             </tbody>
                         </table>
@@ -114,9 +114,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
+                                <td th:text="{detailData.}">61</td>
+                                <td th:text="{detailData.}">2011/04/25</td>
+                                <td th:text="{detailData.}">$320,800</td>
                             </tr>
                             </tbody>
                         </table>
@@ -133,9 +133,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td>61</td>
-                                <td>2011/04/25</td>
-                                <td>$320,800</td>
+                                <td th:text="{detailData.}">61</td>
+                                <td th:text="{detailData.}">2011/04/25</td>
+                                <td th:text="{detailData.}">$320,800</td>
                             </tr>
                             </tbody>
                         </table>
