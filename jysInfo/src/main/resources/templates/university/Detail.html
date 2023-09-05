@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="css/univerityView.css" rel="stylesheet">
+    <link th:href="@{/css/universityView.css?ver=<%=System.currentTimeMillis()%>}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -57,7 +57,7 @@
     <div class="row py-5">
         <div class="col-lg-10 mx-auto">
             <div class="card rounded shadow border-0">
-                <h2 style="font-weight: bold; margin: auto; padding-top: 20px;" th:text="{detail.schoolName}">
+                <h2 style="font-weight: bold; margin: auto; padding-top: 20px;" th:text="${detailData.schoolName}">
                     한양대학교
                 </h2>
                 <br>
@@ -76,9 +76,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td th:text="{detailData.earlyDecisionRecruit}">61</td>
-                                <td th:text="{detailData.earlyDecisionSignCnt}">2011/04/25</td>
-                                <td th:text="{detailData.earlyDecisionSignPercent}">$320,800</td>
+                                <td th:text="${detailData.earlyDecisionRecruit}">61</td>
+                                <td th:text="${detailData.earlyDecisionSignCnt}">2011/04/25</td>
+                                <td th:text="${detailData.earlyDecisionSignPercent}">$320,800</td>
                             </tr>
                             </tbody>
                         </table>
@@ -95,9 +95,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td th:text="{detailData.regularDecisionRecruit}">61</td>
-                                <td th:text="{detailData.regularDecisionSignCnt}">2011/04/25</td>
-                                <td th:text="{detailData.}">$320,800</td>
+                                <td th:text="${detailData.regularDecisionRecruit}">61</td>
+                                <td th:text="${detailData.regularDecisionSignCnt}">2011/04/25</td>
+                                <td th:text="${detailData.regularDecisionSignPercent}">$320,800</td>
                             </tr>
                             </tbody>
                         </table>
@@ -114,9 +114,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td th:text="{detailData.}">61</td>
-                                <td th:text="{detailData.}">2011/04/25</td>
-                                <td th:text="{detailData.}">$320,800</td>
+                                <td th:text="${detailData.addRecruit}">61</td>
+                                <td th:text="${detailData.addSignCnt}">2011/04/25</td>
+                                <td th:text="${detailData.addSignPercent}">$320,800</td>
                             </tr>
                             </tbody>
                         </table>
@@ -133,9 +133,9 @@
                             </thead>
                             <tbody>
                             <tr>
-                                <td th:text="{detailData.}">61</td>
-                                <td th:text="{detailData.}">2011/04/25</td>
-                                <td th:text="{detailData.}">$320,800</td>
+                                <td th:text="${detailData.finalRecruit}">61</td>
+                                <td th:text="${detailData.finalSignCnt}">2011/04/25</td>
+                                <td th:text="${detailData.finalSignPercent}">$320,800</td>
                             </tr>
                             </tbody>
                         </table>
