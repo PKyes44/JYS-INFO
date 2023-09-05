@@ -11,9 +11,26 @@
     <!-- Chart -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="/document/JYS-Information/UnivercityView/js/detail.js"></script>
-    <script type="text/javascript">
+    <style>
+      .chart-area {
+        display: flex; 
+      }
+      .chart-area > div {
+        width: 50%;
+      }
+      .chart-info {
+        padding:0 0 0 45px;
+      }
       
-    </script>
+      @media screen and (max-width: 1024.98px) {
+        .chart-area {
+          display: block;
+        }
+        .chart-area > div {
+          width: auto;
+        }
+      }
+    </style>
 </head>
 <body style="overflow-x: hidden">
 <!-- Responsive navbar-->

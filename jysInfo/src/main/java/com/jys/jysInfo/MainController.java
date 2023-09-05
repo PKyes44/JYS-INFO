@@ -69,12 +69,11 @@ public class MainController {
         return ResponseEntity.status(200).body(response);
     }
 
-    @ResponseBody
     @GetMapping(value = {"/universityInfo/detail"})
     public String universityDetail(@RequestParam(value = "id") long id, Model model) {
         System.out.println("id = " + id);
         UniversityInformation universityInfo = uniService.getUniversityInfo(id);
         model.addAttribute("detailData", universityInfo);
-        return "/university/detail";
+        return "university/Detail";
     }
 }
