@@ -7,8 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Pageable {
-    private int offset;
-    private int pageSize;
+    private int offset;         // 시작번호
+    private int pageSize;       // 한 페이지당 개수
 
     @Builder
     public Pageable(int offset, int pageSize) {

@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.fail;
+
 @SpringBootTest
 @RunWith(SpringRunner.class)
 class JysInfoApplicationTests {
@@ -123,10 +125,11 @@ class JysInfoApplicationTests {
 
 		Assertions.assertThat(pageable.getPageSize() >= result.size());
 	}
-	
+
 	@Test
 	@Transactional
 	public void readTest() {
+		// 더미데이터
 		UniversityInformation uniInfo = new UniversityInformation();
 		uniInfo.setSchoolName("서울대학교");
 		uniInfo.setBaseYear("2022");
@@ -142,7 +145,7 @@ class JysInfoApplicationTests {
 		UniversityInformation uniInfo3 = new UniversityInformation();
 		uniInfo3.setSchoolName("한양대학교");
 		uniInfo3.setBaseYear("2022");
-		uniInfo3.setSchoolType("사립");
+		uniInfo3.setSchoolType("공립");
 		Long uniInfoId3 = uniRepo.save(uniInfo3);
 
 		Pageable pageable = Pageable.builder()
@@ -152,8 +155,9 @@ class JysInfoApplicationTests {
 
 		List<UniversityInformation> result = uniRepo.findList("공립", pageable);
 
+		// 검증
+		Assertions.assertThat(pageable.getPageSize() >= result.size());
 		for (UniversityInformation findUniInfo : result) {
-			System.out.println("findUniInfo.getSchoolName() = " + findUniInfo.getSchoolName());
 			if (findUniInfo.getId().equals(uniInfo.getId())) {
 				Assertions.assertThat(findUniInfo.getSchoolName().equals(uniInfo.getSchoolName()));
 				Assertions.assertThat(findUniInfo.equals(uniInfo));
@@ -162,8 +166,10 @@ class JysInfoApplicationTests {
 				Assertions.assertThat(findUniInfo.getSchoolName().equals(uniInfo2.getSchoolName()));
 				Assertions.assertThat(findUniInfo.equals(uniInfo2));
 			}
+			if (findUniInfo.getId().equals(uniInfo3.getId())) {
+				fail();
+			}
 		}
-
 	}
 
 	@Test

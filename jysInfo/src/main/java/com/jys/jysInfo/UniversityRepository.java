@@ -45,7 +45,6 @@ public class UniversityRepository {
         jpQuery += whereSql;
         jpQuery += String.join(" or ", whereCondition);
 
-        // 조건에 따라서 각각의 where문에 parameter 설정
         TypedQuery<UniversityInformation> query = em.createQuery(jpQuery, UniversityInformation.class);
 
         query.setParameter("searchText", searchText);
